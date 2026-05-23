@@ -1342,7 +1342,7 @@ function AuditLogPage() {
               </div>
               <div className="text-right flex-shrink-0">
                 <div className="text-xs font-medium text-foreground">{e.actor}</div>
-                <div className="text-xs text-muted-foreground">{["verifier","auditor","admin"].includes(e.actorRole.toLowerCase()) ? <RoleBadge role={e.actorRole.toLowerCase() as Role} /> : <span className="text-xs text-muted-foreground">{e.actorRole}</span>}</div>
+                <div className="text-xs text-muted-foreground">{["verifier", "auditor", "admin"].includes(e.actorRole.toLowerCase()) ? <RoleBadge role={e.actorRole.toLowerCase() as Role} /> : <span className="text-xs text-muted-foreground">{e.actorRole}</span>}</div>
                 <div className="text-xs text-muted-foreground font-mono mt-1">{formatDateTime(e.timestamp)}</div>
               </div>
             </div>
