@@ -908,6 +908,7 @@ function ClaimDetailPage({ claimId, onNavigate }: { claimId: string; onNavigate:
   ]);
 
   async function handleSaveStatus() {
+    if (!claim) return;
     try { await updateStatus(claim.id, status, "Sari W.", note || undefined); } catch { /* optimistic update already done */ }
   }
 
@@ -917,7 +918,7 @@ function ClaimDetailPage({ claimId, onNavigate }: { claimId: string; onNavigate:
       <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-4">
         <button onClick={() => onNavigate("review-queue")} className="hover:text-foreground">Review Queue</button>
         <ChevronRight className="w-3 h-3" />
-        <span className="text-foreground font-mono">{claim.id}</span>
+        <span className="text-foreground font-mono">{claim?.id}</span>
       </div>
 
       {/* Header */}
@@ -1051,6 +1052,7 @@ function ClaimDetailPage({ claimId, onNavigate }: { claimId: string; onNavigate:
             </div>
           </div>
         </div>
+      </div>
         </>
       ) : (
         <div className="py-12 text-center text-muted-foreground">Claim not found or loading.</div>
