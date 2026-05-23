@@ -779,7 +779,7 @@ function BatchUploadPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
-                    {CLAIMS.map(c => (
+                    {MOCK_CLAIMS.map(c => (
                       <tr key={c.id} className="hover:bg-muted/30 transition-colors">
                         <td className="px-4 py-2.5 font-mono text-foreground">{c.id}</td>
                         <td className="px-4 py-2.5 text-muted-foreground">{c.facility}</td>
