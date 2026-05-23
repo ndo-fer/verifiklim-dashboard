@@ -36,52 +36,12 @@ function ApiOfflineBanner() {
   return (
     <div className="mb-4 flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs bg-amber-50 border border-amber-200 text-amber-800">
       <WifiOff className="w-3.5 h-3.5 flex-shrink-0" />
-      <span>API offline — menampilkan data demo. Pastikan backend berjalan di <code className="font-mono">localhost:8000</code>.</span>
+      <span>API offline — Pastikan backend berjalan di <code className="font-mono">localhost:8000</code> agar dashboard dapat memuat data.</span>
     </div>
   );
 }
 
-// ================================================================
-// FALLBACK MOCK DATA (shown when API is offline)
-// ================================================================
-const MOCK_CLAIMS: Claim[] = [
-  { id: "CLM-2026-01482", facility: "RS Harapan Sehat", org: "JKN Regional Review Unit", patientCategory: "Inpatient", claimType: "INA-CBG", amount: 8750000, diagnosisGroup: "Internal Medicine", riskScore: 0.78, priority: "High", status: "Needs Review", reviewer: "Sari W.", batchId: "BTH-2026-0521", submittedAt: "2026-05-22T09:15:00", updatedAt: "2026-05-22T11:30:00", topFactors: ["Unusual claim amount for diagnosis group", "Length of stay differs from typical range", "Procedure combination requires review"], los: 12 },
-  { id: "CLM-2026-01491", facility: "RSUD Citra Medika", org: "BPJS Cabang Bandung", patientCategory: "Outpatient", claimType: "INA-CBG", amount: 1250000, diagnosisGroup: "Surgical", riskScore: 0.61, priority: "Medium", status: "In Review", reviewer: "Dimas R.", batchId: "BTH-2026-0521", submittedAt: "2026-05-22T09:15:00", updatedAt: "2026-05-22T13:00:00", topFactors: ["Repeated claim pattern in recent batch", "Diagnosis-procedure consistency needs review"], los: 3 },
-  { id: "CLM-2026-01503", facility: "Klinik Sehat Bersama", org: "JKN Regional Review Unit", patientCategory: "Outpatient", claimType: "Non-CBG", amount: 425000, diagnosisGroup: "Maternity", riskScore: 0.29, priority: "Low", status: "Resolved", reviewer: "Anita P.", batchId: null, submittedAt: "2026-05-21T14:30:00", updatedAt: "2026-05-22T08:00:00", topFactors: ["Missing supporting field"], los: 1 },
-  { id: "CLM-2026-01510", facility: "RS Bunda Mulia", org: "BPJS Cabang Jakarta Selatan", patientCategory: "Inpatient", claimType: "INA-CBG", amount: 14200000, diagnosisGroup: "Surgical", riskScore: 0.84, priority: "High", status: "Escalated", reviewer: "Reza H.", batchId: "BTH-2026-0518", submittedAt: "2026-05-20T16:45:00", updatedAt: "2026-05-22T10:15:00", topFactors: ["Unusual claim amount for diagnosis group", "Procedure combination requires review", "Repeated claim pattern in recent batch", "Length of stay differs from typical range"], los: 18 },
-  { id: "CLM-2026-01524", facility: "RS Harapan Sehat", org: "JKN Regional Review Unit", patientCategory: "Inpatient", claimType: "INA-CBG", amount: 5100000, diagnosisGroup: "Internal Medicine", riskScore: 0.55, priority: "Medium", status: "New", reviewer: "—", batchId: "BTH-2026-0521", submittedAt: "2026-05-22T11:00:00", updatedAt: "2026-05-22T11:00:00", topFactors: ["Length of stay differs from typical range", "Missing or incomplete supporting field"], los: 7 },
-  { id: "CLM-2026-01537", facility: "Puskesmas Maju Jaya", org: "BPJS Cabang Surabaya", patientCategory: "Outpatient", claimType: "Non-CBG", amount: 380000, diagnosisGroup: "Outpatient General", riskScore: 0.18, priority: "Low", status: "Dismissed", reviewer: "Sari W.", batchId: null, submittedAt: "2026-05-21T08:00:00", updatedAt: "2026-05-21T16:00:00", topFactors: ["Missing supporting field"], los: 0 },
-  { id: "CLM-2026-01549", facility: "RSUD Kota Medan", org: "JKN Regional Review Unit", patientCategory: "Inpatient", claimType: "INA-CBG", amount: 9800000, diagnosisGroup: "Maternity", riskScore: 0.72, priority: "High", status: "Needs Review", reviewer: "Budi S.", batchId: "BTH-2026-0521", submittedAt: "2026-05-22T09:45:00", updatedAt: "2026-05-22T12:00:00", topFactors: ["Unusual claim amount for diagnosis group", "Procedure combination requires review"], los: 9 },
-];
-
-const MOCK_BATCHES: BatchRecord[] = [
-  { id: "BTH-2026-0521", filename: "claims_harapan_sehat_may22.csv", uploadedBy: "Sari W.", uploadedAt: "2026-05-22T09:00:00", total: 48, high: 12, medium: 19, low: 17, status: "Processed" },
-  { id: "BTH-2026-0518", filename: "batch_bunda_mulia_may20.xlsx", uploadedBy: "Reza H.", uploadedAt: "2026-05-20T16:00:00", total: 31, high: 8, medium: 11, low: 12, status: "Processed" },
-  { id: "BTH-2026-0514", filename: "rsud_medan_wk2_may.csv", uploadedBy: "Budi S.", uploadedAt: "2026-05-17T10:30:00", total: 67, high: 15, medium: 28, low: 24, status: "Processed" },
-  { id: "BTH-2026-0509", filename: "klinik_sehat_may_batch1.csv", uploadedBy: "Anita P.", uploadedAt: "2026-05-12T14:15:00", total: 22, high: 3, medium: 8, low: 11, status: "Processed" },
-];
-
-const MOCK_AUDIT_EVENTS: AuditEvent[] = [
-  { id: "AUD-0481", actor: "Sari W.", actorRole: "Verifier", action: "Review status changed", entity: "Claim", entityId: "CLM-2026-01482", timestamp: "2026-05-22T11:30:00", detail: "Status changed from New → Needs Review", category: "review" },
-  { id: "AUD-0480", actor: "Sari W.", actorRole: "Verifier", action: "Batch uploaded", entity: "Batch", entityId: "BTH-2026-0521", timestamp: "2026-05-22T09:00:00", detail: "48 claims ingested for processing", category: "batch" },
-  { id: "AUD-0479", actor: "Dimas R.", actorRole: "Verifier", action: "Note added", entity: "Claim", entityId: "CLM-2026-01491", timestamp: "2026-05-22T13:00:00", detail: "Reviewer note recorded during in-review stage", category: "claim" },
-  { id: "AUD-0478", actor: "Reza H.", actorRole: "Auditor", action: "Claim escalated", entity: "Claim", entityId: "CLM-2026-01510", timestamp: "2026-05-22T10:15:00", detail: "Escalated for senior review — score 0.84, surgical high-value", category: "review" },
-  { id: "AUD-0477", actor: "Admin User", actorRole: "Admin", action: "User role changed", entity: "User", entityId: "usr-009", timestamp: "2026-05-21T15:45:00", detail: "Role changed: Verifier → Auditor for Budi S.", category: "user" },
-  { id: "AUD-0476", actor: "Anita P.", actorRole: "Verifier", action: "Claim scored", entity: "Claim", entityId: "CLM-2026-01503", timestamp: "2026-05-21T14:30:00", detail: "Single claim scoring triggered, score: 0.29", category: "claim" },
-  { id: "AUD-0475", actor: "Anita P.", actorRole: "Verifier", action: "Review status changed", entity: "Claim", entityId: "CLM-2026-01503", timestamp: "2026-05-21T16:00:00", detail: "Status changed: In Review → Resolved", category: "review" },
-  { id: "AUD-0474", actor: "System", actorRole: "System", action: "Artifact version updated", entity: "Model", entityId: "artifact-v031", timestamp: "2026-05-15T09:00:00", detail: "Model artifact updated to v0.3.1 — re-threshold applied", category: "system" },
-];
-
-const MOCK_APP_USERS: AppUser[] = [
-  { id: "usr-001", name: "Sari Wulandari", email: "sari.w@rsharapan.co.id", role: "verifier", org: "RS Harapan Sehat", status: "Active", lastActive: "2026-05-22T11:30:00" },
-  { id: "usr-002", name: "Dimas Rahardjo", email: "dimas.r@rsudcitra.go.id", role: "verifier", org: "RSUD Citra Medika", status: "Active", lastActive: "2026-05-22T13:00:00" },
-  { id: "usr-003", name: "Reza Hermawan", email: "reza.h@bpjs-kesehatan.go.id", role: "auditor", org: "BPJS Cabang Jakarta Selatan", status: "Active", lastActive: "2026-05-22T10:15:00" },
-  { id: "usr-004", name: "Anita Pertiwi", email: "anita.p@kliniksehat.co.id", role: "verifier", org: "Klinik Sehat Bersama", status: "Active", lastActive: "2026-05-22T08:00:00" },
-  { id: "usr-005", name: "Budi Santoso", email: "budi.s@jkn-regional.go.id", role: "auditor", org: "JKN Regional Review Unit", status: "Active", lastActive: "2026-05-22T12:00:00" },
-  { id: "usr-006", name: "Admin Sistem", email: "admin@verifiklaim.id", role: "admin", org: "Platform Admin", status: "Active", lastActive: "2026-05-22T08:30:00" },
-  { id: "usr-007", name: "Hendra Gunawan", email: "hendra.g@rsudmedan.go.id", role: "verifier", org: "RSUD Kota Medan", status: "Inactive", lastActive: "2026-05-10T14:00:00" },
-  { id: "usr-008", name: "Fitri Andriani", email: "fitri.a@bpjs-bandung.go.id", role: "auditor", org: "BPJS Cabang Bandung", status: "Pending", lastActive: "—" },
-];
+// No mock data - natively fetch from backend only
 
 // ================================================================
 // UTILITY FUNCTIONS
@@ -395,9 +355,8 @@ function LoginPage({ onLogin }: { onLogin: (role: Role) => void }) {
 // PAGE: OVERVIEW
 // ================================================================
 function OverviewPage({ role, onNavigate }: { role: Role; onNavigate: (p: Page, id?: string) => void }) {
-  const { claims: liveClaims, batches: liveBatches, apiOnline, claimsLoading, modelVersion } = useApp();
-  const CLAIMS = liveClaims.length > 0 ? liveClaims : MOCK_CLAIMS;
-  const BATCHES = liveBatches.length > 0 ? liveBatches : MOCK_BATCHES;
+  const { claims: CLAIMS, batches: BATCHES, apiOnline, claimsLoading, modelVersion } = useApp();
+
   const highCount = CLAIMS.filter(c => c.priority === "High").length;
   const pendingCount = CLAIMS.filter(c => c.status === "Needs Review" || c.status === "New").length;
   const recentClaims = CLAIMS.slice(0, 5);
@@ -537,10 +496,10 @@ function SingleClaimPage({ onNavigate }: { onNavigate: (p: Page, id?: string) =>
     }
   }
 
-  // Derive display result from live or mock fallback
+  // Derive display result
   const result = liveResult
-    ? { score: liveResult.riskScore, priority: liveResult.priority as Priority, factors: liveResult.topFactors.length > 0 ? liveResult.topFactors.map(f => f.feature) : MOCK_CLAIMS[0].topFactors }
-    : { score: 0.78, priority: "High" as Priority, factors: MOCK_CLAIMS[0].topFactors };
+    ? { score: liveResult.riskScore, priority: liveResult.priority as Priority, factors: liveResult.topFactors.length > 0 ? liveResult.topFactors.map(f => f.feature) : [] }
+    : { score: 0, priority: "Low" as Priority, factors: [] };
 
 
   return (
@@ -693,7 +652,7 @@ function SingleClaimPage({ onNavigate }: { onNavigate: (p: Page, id?: string) =>
               <div className="bg-card border border-border rounded-lg p-4">
                 <SectionLabel>Review Actions</SectionLabel>
                 <div className="flex flex-wrap gap-2">
-                  <Btn size="sm" onClick={() => onNavigate("claim-detail", "CLM-2026-01482")}>
+                  <Btn size="sm" onClick={() => form.claimId ? onNavigate("claim-detail", form.claimId) : undefined}>
                     <Eye className="w-3.5 h-3.5" />View Detail
                   </Btn>
                   <Btn variant="secondary" size="sm"><CheckCircle className="w-3.5 h-3.5" />Save to Queue</Btn>
@@ -712,8 +671,7 @@ function SingleClaimPage({ onNavigate }: { onNavigate: (p: Page, id?: string) =>
 // PAGE: BATCH UPLOAD
 // ================================================================
 function BatchUploadPage() {
-  const { scoreBatchFile, batchScoringLoading, batches: liveBatches } = useApp();
-  const BATCHES = liveBatches.length > 0 ? liveBatches : MOCK_BATCHES;
+  const { scoreBatchFile, batchScoringLoading, batches: BATCHES, claims: liveClaims } = useApp();
   const [dragOver, setDragOver] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [batchResult, setBatchResult] = useState<{ total: number; high: number; medium: number; low: number } | null>(null);
@@ -779,7 +737,7 @@ function BatchUploadPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
-                    {MOCK_CLAIMS.map(c => (
+                    {liveClaims.slice(0, 5).map(c => (
                       <tr key={c.id} className="hover:bg-muted/30 transition-colors">
                         <td className="px-4 py-2.5 font-mono text-foreground">{c.id}</td>
                         <td className="px-4 py-2.5 text-muted-foreground">{c.facility}</td>
@@ -840,8 +798,7 @@ function BatchUploadPage() {
 // PAGE: REVIEW QUEUE
 // ================================================================
 function ReviewQueuePage({ onNavigate }: { onNavigate: (p: Page, id?: string) => void }) {
-  const { claims: liveClaims, claimsLoading } = useApp();
-  const CLAIMS = liveClaims.length > 0 ? liveClaims : MOCK_CLAIMS;
+  const { claims: CLAIMS, claimsLoading } = useApp();
   const [priorityFilter, setPriorityFilter] = useState<"All" | Priority>("All");
   const [statusFilter, setStatusFilter] = useState<"All" | ReviewStatus>("All");
   const [search, setSearch] = useState("");
@@ -942,9 +899,8 @@ function ReviewQueuePage({ onNavigate }: { onNavigate: (p: Page, id?: string) =>
 // PAGE: CLAIM DETAIL
 // ================================================================
 function ClaimDetailPage({ claimId, onNavigate }: { claimId: string; onNavigate: (p: Page, id?: string) => void }) {
-  const { claims: liveClaims, updateStatus } = useApp();
-  const allClaims = liveClaims.length > 0 ? liveClaims : MOCK_CLAIMS;
-  const claim = allClaims.find(c => c.id === claimId) || allClaims[0];
+  const { claims: allClaims, updateStatus } = useApp();
+  const claim = allClaims.find(c => c.id === claimId);
   const [status, setStatus] = useState<ReviewStatus>(claim?.status || "New");
   const [note, setNote] = useState("");
   const [notes, setNotes] = useState<{ text: string; by: string; at: string }[]>([
@@ -965,7 +921,9 @@ function ClaimDetailPage({ claimId, onNavigate }: { claimId: string; onNavigate:
       </div>
 
       {/* Header */}
-      <div className="bg-card border border-border rounded-lg p-5 mb-4">
+      {claim ? (
+        <>
+          <div className="bg-card border border-border rounded-lg p-5 mb-4">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -1093,7 +1051,10 @@ function ClaimDetailPage({ claimId, onNavigate }: { claimId: string; onNavigate:
             </div>
           </div>
         </div>
-      </div>
+        </>
+      ) : (
+        <div className="py-12 text-center text-muted-foreground">Claim not found or loading.</div>
+      )}
     </div>
   );
 }
@@ -1232,8 +1193,7 @@ function ArtifactsPage() {
 // PAGE: HISTORY
 // ================================================================
 function HistoryPage({ onNavigate }: { onNavigate: (p: Page, id?: string) => void }) {
-  const { claims: liveClaims, historyLoading } = useApp();
-  const CLAIMS = liveClaims.length > 0 ? liveClaims : MOCK_CLAIMS;
+  const { claims: CLAIMS, historyLoading } = useApp();
   const [search, setSearch] = useState("");
   const filtered = CLAIMS.filter(c =>
     !search || c.id.toLowerCase().includes(search.toLowerCase()) || c.facility.toLowerCase().includes(search.toLowerCase())
@@ -1290,8 +1250,7 @@ function HistoryPage({ onNavigate }: { onNavigate: (p: Page, id?: string) => voi
 // PAGE: AUDIT LOG
 // ================================================================
 function AuditLogPage() {
-  const { auditEvents: liveAudit, auditLoading } = useApp();
-  const AUDIT_EVENTS = liveAudit.length > 0 ? liveAudit : MOCK_AUDIT_EVENTS;
+  const { auditEvents: AUDIT_EVENTS, auditLoading } = useApp();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<"All" | AuditEvent["category"]>("All");
   const filtered = AUDIT_EVENTS.filter(e => {
@@ -1360,8 +1319,7 @@ function AuditLogPage() {
 // PAGE: ADMIN
 // ================================================================
 function AdminPage() {
-  const { users: liveUsers, usersLoading } = useApp();
-  const APP_USERS = liveUsers.length > 0 ? liveUsers : MOCK_APP_USERS;
+  const { users: APP_USERS, usersLoading } = useApp();
   return (
     <div>
       <PageHeader title="Administration" desc="User management, role assignments, and system configuration."
@@ -1498,7 +1456,7 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [role, setRole] = useState<Role>("verifier");
   const [page, setPage] = useState<Page>("overview");
-  const [selectedClaimId, setSelectedClaimId] = useState<string>("CLM-2026-01482");
+  const [selectedClaimId, setSelectedClaimId] = useState<string>("");
 
   function navigate(p: Page, id?: string) {
     if (id) setSelectedClaimId(id);
